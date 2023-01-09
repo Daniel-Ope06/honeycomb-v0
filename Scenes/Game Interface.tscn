@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Fonts/Hexgon-2xwv.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Buttons/Settinings Btn.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Buttons/Menu Btn.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/gameInterface.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 54
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 36
+font_data = ExtResource( 1 )
+
+[node name="Game Interface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.745098, 0.690196, 0.494118, 1 )
+
+[node name="Title" type="RichTextLabel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -136.0
+margin_top = 20.0
+margin_right = 136.0
+margin_bottom = 156.0
+custom_fonts/normal_font = SubResource( 1 )
+text = "HONEY
+    comb"
+
+[node name="Timer" type="RichTextLabel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 16.0
+margin_top = 40.0
+margin_right = 174.0
+margin_bottom = 92.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "TIMER"
+
+[node name="Filled" type="RichTextLabel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 608.0
+margin_top = 40.0
+margin_right = 808.0
+margin_bottom = 92.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "FILLED"
+
+[node name="Btns" type="Node2D" parent="."]
+position = Vector2( 16, 250 )
+scale = Vector2( 0.6, 0.6 )
+
+[node name="MenuBtn" type="TextureButton" parent="Btns"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture_normal = ExtResource( 3 )
+
+[node name="SettingsBtn" type="TextureButton" parent="Btns"]
+margin_top = 100.0
+margin_right = 87.0
+margin_bottom = 187.0
+texture_normal = ExtResource( 2 )
+
+[node name="Game Board" type="Node2D" parent="."]
+
+[node name="Frequency" type="RichTextLabel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 280.0
+margin_top = 512.0
+margin_right = 496.0
+margin_bottom = 600.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "N 0 1 2 3
+F"
