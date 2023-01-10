@@ -1,8 +1,8 @@
 extends Node2D
 
 const COLOR_CODE: Dictionary = {"ORANGE": 0, "YELLOW": 1, "PURPLE": 2, "GREEN": 3, "LIME": 4}
-const PLAYER_NUMBERS: Dictionary = {0: 9, 1: 0, 2: 1}
-const COMPUTER_NUMBERS: Dictionary = {0: 19, 1: 10, 2: 11}
+const PLAYER_NUMBERS: Dictionary = {0: 9, 1: 0, 2: 1, 3: 2}
+const COMPUTER_NUMBERS: Dictionary = {0: 19, 1: 10, 2: 11, 3: 12}
 
 func _ready() -> void:
 	pass
@@ -21,3 +21,7 @@ func setNumber(number: int, controller: String) -> void:
 
 func setPosition(pos: Vector2) -> void:
 	position = pos
+
+func hideNumber():
+	$"Number Sprite".hide()
+
