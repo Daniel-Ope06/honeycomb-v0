@@ -3,7 +3,14 @@ extends Node2D
 # Member varaibles
 var random: Object = RandomNumberGenerator.new()
 var numberFrequency: Dictionary = {0: 0, 1: 0, 2: 0, 3: 0}
-var boardArray: Array = []
+var boardArray: Array = [
+	[null, null, null, null, null, null,],
+	[null, null, null, null, null, null,],
+	[null, null, null, null, null, null,],
+	[null, null, null, null, null, null,],
+	[null, null, null, null, null, null,],
+	[null, null, null, null, null, null,]
+]
 
 # Constants
 enum COLOUR_SET {ORANGE, YELLOW}
@@ -19,14 +26,16 @@ const HEXAGON: Object = preload("res://Scenes/Hexagon.tscn")
 func _ready() -> void:
 	random.randomize()
 	generateBoard()
+	print(boardArray[0][1].pixelToGrid())
 
 
 func generateBoard() -> void:
 	for i in range(6):
-		boardArray.append([])
 		for j in range(6):
 			var hexagon: Object = generateHexagon(Vector2(i,j))
-			boardArray.append(hexagon)
+			while (not(hexagon.isHexagonValid(boardArray))):
+				hexagon = generateHexagon(Vector2(i,j))
+			boardArray[i][j] = hexagon
 
 func generateHexagon(gridPosition: Vector2) -> Object:
 	var hexagon: Object = HEXAGON.instance()
