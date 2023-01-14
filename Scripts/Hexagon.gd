@@ -6,8 +6,8 @@ export (int, "COMPUTER", "PLAYER") var controller = 1
 export (int, 3) var hexagonNumber = 2
 
 # Constants
-const PLAYER_NUMBERS: Dictionary = {0: 9, 1: 0, 2: 1, 3: 2} # number: frame
-const COMPUTER_NUMBERS: Dictionary = {0: 19, 1: 10, 2: 11, 3: 12} # number: frame
+const PLAYER_NUMBERS: Dictionary = {0: 9, 1: 0, 2: 1, 3: 2, 9: 8} # number: frame
+const COMPUTER_NUMBERS: Dictionary = {0: 19, 1: 10, 2: 11, 3: 12, 9: 18} # number: frame
 const START_POSITION: Vector2 = Vector2(410, 180)
 const SHIFT_ALONG_ROW: Vector2 = Vector2(48, 28)
 const SHIFT_ALONG_COL: Vector2 = Vector2(-48, 28)
@@ -22,8 +22,25 @@ func _ready() -> void:
 		0: $"Number Sprite".frame = COMPUTER_NUMBERS[hexagonNumber]
 		1: $"Number Sprite".frame = PLAYER_NUMBERS[hexagonNumber]
 
+
+# ------------------------------------------------
+
+func hideNumber() -> void:
+	$"Number Sprite".hide()
+
+func showNumber() -> void:
+	$"Number Sprite".show()
+
+
+# ------------------------------------------------
+
+
 func isHexagonValid(boardArray: Array) -> bool:
 	var gridPosition: Vector2 = pixelToGrid()
+
+	if (hexagonNumber == 9):
+		return false
+
 
 	# CONDITIONS
 	# each number must appear exactly 9 times in total

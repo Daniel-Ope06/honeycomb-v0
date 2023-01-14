@@ -25,6 +25,15 @@ const POSSIBLE_VALUES: Array = [
 	{"NUMBER":2, "COLOUR":COLOUR_SET.ORANGE},
 	{"NUMBER":3, "COLOUR":COLOUR_SET.ORANGE}
 ]
+
+#const POSSIBLE_VALUES: Array = [
+#	{"NUMBER":1, "COLOUR":COLOUR_SET.YELLOW}, {"NUMBER":3, "COLOUR":COLOUR_SET.ORANGE},
+#	{"NUMBER":0, "COLOUR":COLOUR_SET.YELLOW}, {"NUMBER":0, "COLOUR":COLOUR_SET.ORANGE},
+#	{"NUMBER":3, "COLOUR":COLOUR_SET.YELLOW}, {"NUMBER":1, "COLOUR":COLOUR_SET.ORANGE},
+#	{"NUMBER":2, "COLOUR":COLOUR_SET.YELLOW}, {"NUMBER":2, "COLOUR":COLOUR_SET.ORANGE}
+#]
+
+
 const START_POSITION: Vector2 = Vector2(410, 180)
 const SHIFT_ALONG_ROW: Vector2 = Vector2(48, 28)
 const SHIFT_ALONG_COL: Vector2 = Vector2(-48, 28)
@@ -46,7 +55,7 @@ func _ready() -> void:
 #	boardArray[4][1] = createHexagon(Vector2(4,1), 2, COLOUR_SET.YELLOW)
 #	boardArray[5][3] = createHexagon(Vector2(5,3), 0, COLOUR_SET.YELLOW)
 	
-	generateSolvedBoard()
+	print(generateSolvedBoard())
 	printBoardArray()
 	#print(boardArray[3][5].pixelToGrid())
 	#boardArray[gridPosition.x + direction.x][gridPosition.y + direction.y]
@@ -59,31 +68,27 @@ func _ready() -> void:
 func generateSolvedBoard() -> bool:
 	for i in range(6):
 		for j in range(6):
-			if (boardArray[i][j] == null):
-				var hexagon: Object = generateHexagon(Vector2(i,j))
+			if (boardArray[i][j] == null or boardArray[i][j].hexagonNumber == 9):
+				generateHexagon(Vector2(i,j))
 				for value in POSSIBLE_VALUES:
-					hexagon.hexagonNumber = value["NUMBER"]
-					hexagon.hexagonColour = value["COLOUR"]
-					if (hexagon.isHexagonValid(boardArray)):
-						add_child(hexagon)
-						boardArray[i][j] = hexagon
+					boardArray[i][j].hexagonNumber = value["NUMBER"]
+					boardArray[i][j].hexagonColour = value["COLOUR"]
+					if (boardArray[i][j].isHexagonValid(boardArray)):
+						add_child(boardArray[i][j])
 						if (generateSolvedBoard()):
 							return true
-						print("No Solution")
-						boardArray[i][j] = null
-						#remove_child(hexagon)
-						hexagon.queue_free()
-				#print(String(boardArray[i][j].hexagonNumber) + "|" + String(boardArray[i][j].hexagonColour) + "|" + String(boardArray[i][j].pixelToGrid()))
+						#print(String(boardArray[i][j].hexagonNumber) + "|" + String(boardArray[i][j].hexagonColour) + "|" + String(boardArray[i][j].pixelToGrid()))
+						boardArray[i][j].hexagonNumber = 9
+						boardArray[i][j].queue_free()
 				return false
 	return true
 
-func generateHexagon(gridPosition: Vector2) -> Object:
-	var hexagon: Object = HEXAGON.instance()
-	hexagon.controller = CONTROLLER_SET.PLAYER
+func generateHexagon(gridPosition: Vector2) -> void:
+	boardArray[gridPosition.x][gridPosition.y] = HEXAGON.instance()
+	boardArray[gridPosition.x][gridPosition.y].controller = CONTROLLER_SET.PLAYER
 	#hexagon.hexagonColour = random.randi_range(0, 1)
 	#hexagon.hexagonNumber = random.randi_range(0, 3)
-	hexagon.position = gridToPixel(gridPosition)
-	return hexagon
+	boardArray[gridPosition.x][gridPosition.y].position = gridToPixel(gridPosition)
 
 func createHexagon(gridPosition: Vector2, hexagonNumber: int, hexagonColour: int) -> Object:
 	var hexagon: Object = HEXAGON.instance()
@@ -99,6 +104,11 @@ func gridToPixel(gridPosition: Vector2) -> Vector2:
 	return pixelPosition
 
 func printBoardArray():
+	for i in range(6):
+		for j in range(6):
+			add_child(boardArray[i][j])
+			pass
+	
 	for i in range(6):
 		print(
 			String(boardArray[i][0].hexagonNumber) + "|" + String(boardArray[i][0].hexagonColour) + " " +

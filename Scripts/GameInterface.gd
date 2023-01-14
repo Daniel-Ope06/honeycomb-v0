@@ -13,7 +13,3 @@ func _ready() -> void:
 func setUpBoard() -> void:
 	var gameBoard: Object = GAME_BOARD.instance()
 	add_child(gameBoard)
-
-
-
-
