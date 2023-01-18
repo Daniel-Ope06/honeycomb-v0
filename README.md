@@ -11,12 +11,12 @@
 
 <h1>Rules of the game</h1>
 <ul>
-  <li>Fill all the yellow and orange hexagons using only the numbers; 0, 1, 2 and 3.</li>
-  <li>Each number must appear exactly 9 times in total.</li>
+  <li>Fill all the yellow and orange hexagons using only the numbers; <strong>0, 1, 2 and 3</strong>.</li>
+  <li>Each number must appear exactly <strong>9</strong> times in total.</li>
   <li>Each hexagon must contain exactly one number.</li>
   <li>Adjacent yellow hexagons contain different numbers.</li>
   <li>The number in an orange hexagon must be greater than or equal to the numbers in the adjacent hexagons (may be yellow or orange).</li>
-  <li>The numbers in an opposite pair of hexagons (may be yellow or orange) adjacent to an orange hexagon must sum to the number in that orange hexagon.</li>
+  <li>The numbers in an opposite pair of hexagons (may be yellow or orange) adjacent to an orange hexagon MUST sum to the number in that orange hexagon.</li>
   <li>The numbers in an opposite pair of hexagons (may be yellow or orange) adjacent to a yellow hexagon NEVER sum to the number in that yellow hexagon. </li>
 </ul>
 <br/>
@@ -31,11 +31,11 @@ Thank you to <strong>Onah Pius</strong> for the question and <strong>Mmesomachi 
 <div style="display: flex; justify-content: space-between;">
     <img
          src="https://user-images.githubusercontent.com/97707320/213307666-df4bfefc-ef98-4825-9e14-8ef4a09914fd.jpeg"
-         alt="Page 1 of SMA Question" width="500" height="650"
+         alt="Page 1 of SMA Question" width="250" height="325"
     />
     <img
          src="https://user-images.githubusercontent.com/97707320/213309995-80c2f381-577f-49a9-a666-84949c801707.jpeg"
-         alt="Page 2 of SMA Question" width="500" height="650"
+         alt="Page 2 of SMA Question" width="250" height="325"
     />
 </div>
 
