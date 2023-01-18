@@ -3,7 +3,6 @@ extends Node2D
 const BOARD_SIZE: int = 6
 const EMPTY: int = 9
 const HEXAGON: Object = preload("res://Scenes/Hexagon.tscn")
-#const POSSIBLE_ENTRIES: Array = ["0|Y", "1|Y", "2|Y", "3|Y", "0|O", "1|O", "2|O", "3|O"]
 enum COLOUR {ORANGE, YELLOW}
 enum CONTROLLER {COMPUTER, PLAYER}
 
@@ -28,6 +27,15 @@ const TEST_BOARD1: Array = [
 	["E|Y|P", "E|Y|P", "E|Y|P", "0|Y|C", "E|Y|P", "E|Y|P"]
 ]
 
+const TEST_BOARD2: Array = [
+	["E|Y|P", "E|Y|P", "E|Y|P", "1|Y|C", "E|O|P", "E|Y|P"],
+	["E|Y|P", "E|Y|P", "2|Y|C", "E|Y|P", "E|Y|P", "E|Y|P"],
+	["E|Y|P", "E|Y|P", "E|Y|P", "E|O|P", "E|Y|P", "E|Y|P"],
+	["E|Y|P", "E|O|P", "E|O|P", "E|Y|P", "E|Y|P", "E|Y|P"],
+	["3|O|C", "E|Y|P", "E|Y|P", "E|Y|P", "E|Y|P", "E|Y|P"],
+	["E|Y|P", "E|Y|P", "0|Y|C", "E|Y|P", "E|Y|P", "E|Y|P"]
+]
+
 # positioning constants
 const START_POSITION: Vector2 = Vector2(410, 180)
 const SHIFT_ALONG_ROW: Vector2 = Vector2(48, 28)
@@ -38,13 +46,15 @@ var failureReason: String = "none"
 
 # ------------------------------------------------- _READY() FUNCTION -------------------------------------------------
 func _ready() -> void:
-	setUpNumberFrequency(TEST_BOARD1)
-	print(solveBoard(TEST_BOARD1))
-	drawBoard(TEST_BOARD1)
+	var board: Array = TEST_BOARD1
+	
+	setUpNumberFrequency(board)
+	print(solveBoard(board))
+	drawBoard(board)
+#	printArray(board)
 	
 	# Testinig behaviour
 	print(doesEachNumberAppearNineTimes())
-	
 
 
 # ------------------------------------------------- MAIN FUNCTIONS  -------------------------------------------------
@@ -57,6 +67,13 @@ func drawBoard(board: Array) -> void:
 			drawHexagon(number, colour, Vector2(i,j), controller)
 
 
+func printArray(board: Array) -> void:
+	print("+-------+-------+-------+-------+-------+-------+")
+	for i in range(BOARD_SIZE):
+		print("| " + board[i][0] + " | " + board[i][1] + " | " + board[i][2] + " | " + board[i][3] + " | " + board[i][4] + " | " + board[i][5] + " |")
+		print("+-------+-------+-------+-------+-------+-------+")
+
+
 func solveBoard(board: Array) -> bool:
 	for i in range(BOARD_SIZE):
 		for j in range(BOARD_SIZE):
@@ -66,24 +83,25 @@ func solveBoard(board: Array) -> bool:
 			if (number == "E" and controller == "P"):
 				for n in range(4):
 					# For debugging
-					print(String(n) + " [" + String(i) + " ," + String(j) + "]")
+#					print(String(n) + " [" + String(i) + " ," + String(j) + "]")
 					
 					if (checkValue(n, colour, Vector2(i,j), board)):
 						# For debugging
-						print(String(n) + " is accepted")
+#						print(String(n) + " is accepted")
 						
 						board[i][j] = String(n) + "|" + colour + "|P"
 						numberFrequency[n] += 1
 						
 						# For debugging
-						drawBoard(board)
-						yield(get_tree().create_timer(0.5), "timeout")
+#						drawBoard(board)
+#						yield(get_tree().create_timer(0.5), "timeout")
 						
 						if (solveBoard(board)):
 							return true
 						board[i][j] = "E|" + colour + "|P"
 						numberFrequency[n] -= 1
-				return false
+				#fixNeighbourPair(Vector2(i,j), board)
+				#return false
 	print("Solution Found")
 	return true
 
@@ -110,15 +128,15 @@ func checkValue(number: int, colour: String, gridPosition: Vector2, board: Array
 			var neighbourColour: String = board[gridPosition.x + direction.x][gridPosition.y + direction.y].substr(2,1)
 			
 			if (colour == "O" and neighbourColour == "Y" and not(number >= neighbourNumber)):
-				print("failed O-Y adjacent check")
+				print("Failed O-Y adjacent check")
 				return false
 			
 			if (colour == "Y" and neighbourColour == "O" and not(number <= neighbourNumber)):
-				print("failed Y-O adjacent check")
+				print("Failed Y-O adjacent check")
 				return false
 			
 			if (colour == "O" and neighbourColour == "O" and not(number == neighbourNumber)):
-				print("failed O-O adjacent check")
+				print("Failed O-O adjacent check")
 				return false
 	
 	# sum conditions updated
@@ -138,17 +156,7 @@ func checkValue(number: int, colour: String, gridPosition: Vector2, board: Array
 				print("Failed Yellow sum")
 				return false
 	
-	# orange hexagon number == sum of opposite neighbour pair hexagon numbers (may be yellow or orange)
-#	if (colour == "O"):
-#		for pair in PAIRS.values():
-#			if (hasNeighbourPair(gridPosition, pair, board)):
-#				var neighbourNumber0: int = int(board[gridPosition.x + pair[0].x][gridPosition.y + pair[0].y].substr(0,1))
-#				var neighbourNumber1: int = int(board[gridPosition.x + pair[1].x][gridPosition.y + pair[1].y].substr(0,1))
-#				if (number != neighbourNumber0 + neighbourNumber1):
-#					return false
-	
 	return true
-
 
 
 # ------------------------------------------------- UNIT TESTS -------------------------------------------------
@@ -222,3 +230,39 @@ func setUpNumberFrequency(board: Array) -> void:
 			var number: String = board[i][j].substr(0,1)
 			if (number != "E"):
 				numberFrequency[int(number)] += 1
+
+
+func fixNeighbourPair(gridPosition: Vector2, board: Array):
+	var testBoard: Array = board
+	var number: int = int(testBoard[gridPosition.x][gridPosition.y].substr(0,1))
+	var colour: String = testBoard[gridPosition.x][gridPosition.y].substr(2,1)
+	
+	for direction in DIRECTIONS.values():
+		if (hasCreatedNeighbourPair(gridPosition, direction, board)):
+			var neighbourSumColour: String = testBoard[gridPosition.x + direction.x][gridPosition.y + direction.y].substr(2,1)
+			var neighbourSumNumber: int = int(testBoard[gridPosition.x + direction.x][gridPosition.y + direction.y].substr(0,1))
+			var otherNeighbourColour: String = testBoard[gridPosition.x + 2*direction.x][gridPosition.y + 2*direction.y].substr(2,1)
+			var otherNeighbourNumber: int = int(testBoard[gridPosition.x + 2*direction.x][gridPosition.y + 2*direction.y].substr(0,1))
+	
+			# orange hexagon number == sum of opposite neighbour pair hexagon numbers (may be yellow or orange)
+			if ((neighbourSumColour == "O") and (number + otherNeighbourNumber != neighbourSumNumber)):
+				for n in range(4):
+					testBoard[gridPosition.x][gridPosition.y] = String(n) + "|" + colour + "|P"
+					var newNumber: int = int(testBoard[gridPosition.x][gridPosition.y].substr(0,1))
+					
+					testBoard[gridPosition.x + 2*direction.x][gridPosition.y + 2*direction.y] = String(neighbourSumNumber - n) + "|" + otherNeighbourColour + "|P"
+					var newNeighbourNumber: int = int(testBoard[gridPosition.x + 2*direction.x][gridPosition.y + 2*direction.y].substr(0,1))
+					
+					if (checkValue(newNumber, colour, gridPosition, testBoard) and checkValue(newNeighbourNumber, otherNeighbourColour, gridPosition + direction, testBoard)):
+						board[gridPosition.x][gridPosition.y] = String(newNumber) + "|" + colour + "|P"
+						board[gridPosition.x + 2*direction.x][gridPosition.y + 2*direction.y] = String(newNeighbourNumber) + "|" + otherNeighbourColour + "|P"
+						break
+						#return true
+	
+			# yellow hexagon number != sum of opposite neighbour pair hexagon numbers (may be yellow or orange)
+			if ((neighbourSumColour == "Y") and (number + otherNeighbourNumber == neighbourSumNumber)):
+				print("Failed Yellow sum")
+	#return false
+
+
+
