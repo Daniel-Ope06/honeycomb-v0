@@ -5,7 +5,7 @@
 <img
      src = "https://user-images.githubusercontent.com/97707320/213306083-98f89bcb-7686-4bbe-b492-0e58e1b016ca.png"
      alt = "HoneyComb UI"
-     width="720" height="500"
+     width="700" height="500"
 />
 <br/>
 
@@ -31,11 +31,11 @@ Thank you to <strong>Onah Pius</strong> for the question and <strong>Mmesomachi 
 <div style="display: flex; justify-content: space-between;">
     <img
          src="https://user-images.githubusercontent.com/97707320/213307666-df4bfefc-ef98-4825-9e14-8ef4a09914fd.jpeg"
-         alt="Page 1 of SMA Question" width="250" height="325"
+         alt="Page 1 of SMA Question" width="500" height="650"
     />
     <img
          src="https://user-images.githubusercontent.com/97707320/213309995-80c2f381-577f-49a9-a666-84949c801707.jpeg"
-         alt="Page 2 of SMA Question" width="250" height="325"
+         alt="Page 2 of SMA Question" width="500" height="650"
     />
 </div>
 
