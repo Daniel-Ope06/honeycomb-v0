@@ -42,7 +42,7 @@ const SHIFT_ALONG_ROW: Vector2 = Vector2(48, 28)
 const SHIFT_ALONG_COL: Vector2 = Vector2(-48, 28)
 
 var numberFrequency: Array = [0, 0, 0, 0] # frequency of 0, 1, 2, 3
-var failureReason: String = "none"
+
 
 # ------------------------------------------------- _READY() FUNCTION -------------------------------------------------
 func _ready() -> void:
@@ -51,7 +51,7 @@ func _ready() -> void:
 	setUpNumberFrequency(board)
 	print(solveBoard(board))
 	drawBoard(board)
-#	printArray(board)
+	printArray(board)
 	
 	# Testinig behaviour
 	print(doesEachNumberAppearNineTimes())
@@ -118,7 +118,7 @@ func checkValue(number: int, colour: String, gridPosition: Vector2, board: Array
 			if(hasNeighbour(gridPosition, direction, board)):
 				var neighbourNumber: int = int(board[gridPosition.x + direction.x][gridPosition.y + direction.y].substr(0,1))
 				if (number == neighbourNumber):
-					print("Failed adjacent yellow check")
+					#print("Failed adjacent yellow check")
 					return false
 	
 	# orange hexagon number >= all adjacent hexagon numbers (may be yellow or orange)
@@ -128,15 +128,15 @@ func checkValue(number: int, colour: String, gridPosition: Vector2, board: Array
 			var neighbourColour: String = board[gridPosition.x + direction.x][gridPosition.y + direction.y].substr(2,1)
 			
 			if (colour == "O" and neighbourColour == "Y" and not(number >= neighbourNumber)):
-				print("Failed O-Y adjacent check")
+				#print("Failed O-Y adjacent check")
 				return false
 			
 			if (colour == "Y" and neighbourColour == "O" and not(number <= neighbourNumber)):
-				print("Failed Y-O adjacent check")
+				#print("Failed Y-O adjacent check")
 				return false
 			
 			if (colour == "O" and neighbourColour == "O" and not(number == neighbourNumber)):
-				print("Failed O-O adjacent check")
+				#print("Failed O-O adjacent check")
 				return false
 	
 	# sum conditions updated
@@ -148,12 +148,12 @@ func checkValue(number: int, colour: String, gridPosition: Vector2, board: Array
 
 			# orange hexagon number == sum of opposite neighbour pair hexagon numbers (may be yellow or orange)
 			if ((neighbourSumColour == "O") and (number + otherNeighbourNumber != neighbourSumNumber)):
-				print("Failed Orange sum")
+				#print("Failed Orange sum")
 				return false
 
 			# yellow hexagon number != sum of opposite neighbour pair hexagon numbers (may be yellow or orange)
 			if ((neighbourSumColour == "Y") and (number + otherNeighbourNumber == neighbourSumNumber)):
-				print("Failed Yellow sum")
+				#print("Failed Yellow sum")
 				return false
 	
 	return true

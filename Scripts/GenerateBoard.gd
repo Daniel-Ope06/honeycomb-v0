@@ -1,16 +1,46 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
+const BOARD_SIZE: int = 6
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+var random: Object = RandomNumberGenerator.new() 
+var possibleNumbers: Array = [0, 1, 2, 3]
+var numberFrequency: Array = [0, 0, 0, 0] # frequency of 0, 1, 2, 3
+var possibleColours: Array = ["O", "Y"]
+
+
+
+# ------------------------------------------------- MAIN FUNCTIONS  -------------------------------------------------
+func generateBoard():
+	var board: Array = []
+	random.randomize()
+	for i in range(BOARD_SIZE):
+		board.append([])
+		for j in range(BOARD_SIZE):
+			board[i].append()
+			possibleNumbers.shuffle()
+			var colour: String = possibleColours[rand_range(0, possibleColours.size())]
+			for k in range(possibleNumbers.size()):
+				var number: int = possibleNumbers[k]
+				if (true):
+					pass
+				
+				
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ---------------------------------------------- HELPER FUNCTIONS  -----------------------------------------------
